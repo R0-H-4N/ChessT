@@ -1,0 +1,95 @@
+:root {
+    --h: 75px;
+    --x: 15px;
+    --bl: #505050;
+    --wh: #bbbbbb;
+}
+body {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(rgb(126, 31, 31), rgb(66, 23, 23));
+    
+    flex-direction: row;
+}
+
+.col {
+    height: calc(calc(var(--h)*8) + var(--x));
+    width: var(--x);
+}
+
+.col .void {
+    width: var(--x);
+    height:var(--x);
+    background-color: rgba(120, 120, 120, 0.5);
+}
+
+.col .bb {
+    width: var(--x);
+    height: var(--h);
+    background-color: rgba(55, 55, 55, 0.5);
+}
+.col .ww {
+    width: var(--x);
+    height: var(--h);
+    background-color: rgba(187, 187, 187, 0.5);
+}
+
+.body_row {
+    display: flex;
+    flex-direction: column;
+}
+
+.body_row .board{
+    width: calc(var(--h)*8);
+    height: calc(var(--h)*8);
+    display: flex;
+    flex-direction: column;
+}
+
+.body_row .board .row {
+    display: flex;
+    flex-direction: row;
+}
+.body_row .board .row .b {
+    width: var(--h);
+    height: var(--h);
+    background-color: var(--bl);
+}
+
+.body_row .board .row .w {
+    width: var(--h);
+    height: var(--h);
+    background-color: var(--wh);
+}
+
+.body_row .rowlabel {
+    width: calc(calc(var(--h)*8));
+    height: var(--x);
+    display: flex;
+    flex-direction: row;
+}
+
+.body_row .rowlabel .b {
+    height: var(--x);
+    width: var(--h);
+    background-color: rgba(55, 55, 55, 0.5);
+}
+
+.body_row .rowlabel .w {
+    height: var(--x);
+    width: var(--h);
+    background-color: rgba(187, 187, 187, 0.5);
+}
+
+.body_row .rowlabel .b, .body_row .rowlabel .w, .col .bb, .col .ww {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
+
+
+
