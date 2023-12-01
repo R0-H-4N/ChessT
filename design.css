@@ -3,6 +3,8 @@
     --x: 15px;
     --bl: #505050;
     --wh: #bbbbbb;
+    --bup: #606060;
+    --wup: #eeeeee;
 }
 body {
     padding: 10px;
@@ -12,9 +14,11 @@ body {
     background: linear-gradient(rgb(126, 31, 31), rgb(66, 23, 23));
     
     flex-direction: row;
+    box-sizing: border-box;
 }
 
 .col {
+    
     height: calc(calc(var(--h)*8) + var(--x));
     width: var(--x);
 }
@@ -25,12 +29,12 @@ body {
     background-color: rgba(120, 120, 120, 0.5);
 }
 
-.col .bb {
+.col #b {
     width: var(--x);
     height: var(--h);
     background-color: rgba(55, 55, 55, 0.5);
 }
-.col .ww {
+.col #w {
     width: var(--x);
     height: var(--h);
     background-color: rgba(187, 187, 187, 0.5);
@@ -52,16 +56,30 @@ body {
     display: flex;
     flex-direction: row;
 }
-.body_row .board .row .b {
+
+.body_row .board .row #a2, .body_row .board .row #a4, .body_row .board .row #a6, .body_row .board .row #a8, .body_row .board .row #b1, .body_row .board .row #b3, .body_row .board .row #b5, .body_row .board .row #b7, .body_row .board .row #c2, .body_row .board .row #c4, .body_row .board .row #c6, .body_row .board .row #c8, .body_row .board .row #d1, .body_row .board .row #d3, .body_row .board .row #d5, .body_row .board .row #d7, 
+.body_row .board .row #e2, .body_row .board .row #e4, .body_row .board .row #e6, .body_row .board .row #e8, .body_row .board .row #f1, .body_row .board .row #f3, .body_row .board .row #f5, .body_row .board .row #f7, .body_row .board .row #g2, .body_row .board .row #g4, .body_row .board .row #g6, .body_row .board .row #g8, .body_row .board .row #h1, .body_row .board .row #h3, .body_row .board .row #h5, .body_row .board .row #h7 {
     width: var(--h);
     height: var(--h);
+    box-sizing: border-box;
     background-color: var(--bl);
 }
 
-.body_row .board .row .w {
+.body_row .board .row #a1, .body_row .board .row #a3, .body_row .board .row #a5, .body_row .board .row #a7, .body_row .board .row #b2, .body_row .board .row #b4, .body_row .board .row #b6, .body_row .board .row #b8, .body_row .board .row #c1, .body_row .board .row #c3, .body_row .board .row #c5, .body_row .board .row #c7, .body_row .board .row #d2, .body_row .board .row #d4, .body_row .board .row #d6, .body_row .board .row #d8, 
+.body_row .board .row #e1, .body_row .board .row #e3, .body_row .board .row #e5, .body_row .board .row #e7, .body_row .board .row #f2, .body_row .board .row #f4, .body_row .board .row #f6, .body_row .board .row #f8, .body_row .board .row #g1, .body_row .board .row #g3, .body_row .board .row #g5, .body_row .board .row #g7, .body_row .board .row #h2, .body_row .board .row #h4, .body_row .board .row #h6, .body_row .board .row #h8 {
     width: var(--h);
     height: var(--h);
+    box-sizing: border-box;
     background-color: var(--wh);
+}
+.body_row .board .row #a2:hover, .body_row .board .row #a4:hover, .body_row .board .row #a6:hover, .body_row .board .row #a8:hover, .body_row .board .row #b1:hover, .body_row .board .row #b3:hover, .body_row .board .row #b5:hover, .body_row .board .row #b7:hover, .body_row .board .row #c2:hover, .body_row .board .row #c4:hover, .body_row .board .row #c6:hover, .body_row .board .row #c8:hover, .body_row .board .row #d1:hover, .body_row .board .row #d3:hover, .body_row .board .row #d5:hover, .body_row .board .row #d7:hover, .body_row .board .row #e2:hover, .body_row .board .row #e4:hover, .body_row .board .row #e6:hover, .body_row .board .row #e8:hover, .body_row .board .row #f1:hover, .body_row .board .row #f3:hover, .body_row .board .row #f5:hover, .body_row .board .row #f7:hover, .body_row .board .row #g2:hover, .body_row .board .row #g4:hover, .body_row .board .row #g6:hover, .body_row .board .row #g8:hover, .body_row .board .row #h1:hover, .body_row .board .row #h3:hover, .body_row .board .row #h5:hover, .body_row .board .row #h7:hover {
+    border: 2px solid green;
+    background-color: var(--bup);
+}
+.body_row .board .row #a1:hover, .body_row .board .row #a3:hover, .body_row .board .row #a5:hover, .body_row .board .row #a7:hover, .body_row .board .row #b2:hover, .body_row .board .row #b4:hover, .body_row .board .row #b6:hover, .body_row .board .row #b8:hover, .body_row .board .row #c1:hover, .body_row .board .row #c3:hover, .body_row .board .row #c5:hover, .body_row .board .row #c7:hover, .body_row .board .row #d2:hover, .body_row .board .row #d4:hover, .body_row .board .row #d6:hover, .body_row .board .row #d8:hover, .body_row .board .row #e1:hover, .body_row .board .row #e3:hover, .body_row .board .row #e5:hover, .body_row .board .row #e7:hover, .body_row .board .row #f2:hover, .body_row .board .row #f4:hover, .body_row .board .row #f6:hover, .body_row .board .row #f8:hover, .body_row .board .row #g1:hover, .body_row .board .row #g3:hover, .body_row .board .row #g5:hover, .body_row .board .row #g7:hover, .body_row .board .row #h2:hover, .body_row .board .row #h4:hover, .body_row .board .row #h6:hover, .body_row .board .row #h8:hover
+{
+    border: 2px solid green;
+    background-color: var(--wup);
 }
 
 .body_row .rowlabel {
@@ -71,22 +89,27 @@ body {
     flex-direction: row;
 }
 
-.body_row .rowlabel .b {
+.body_row .rowlabel #b {
     height: var(--x);
     width: var(--h);
     background-color: rgba(55, 55, 55, 0.5);
 }
 
-.body_row .rowlabel .w {
+.body_row .rowlabel #w {
     height: var(--x);
     width: var(--h);
     background-color: rgba(187, 187, 187, 0.5);
 }
 
-.body_row .rowlabel .b, .body_row .rowlabel .w, .col .bb, .col .ww {
+.body_row .rowlabel #b, .body_row .rowlabel #w, .col #b, .col #w {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 0.8em;
     color: rgba(255, 255, 255, 0.5);
+}
+
+img {
+    height: var(--h);
+    width: var(--h);
 }
 
 
