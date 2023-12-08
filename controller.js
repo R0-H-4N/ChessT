@@ -1,8 +1,9 @@
 let board;
-let white_turn = false, selected = false, moved = false;
+let white_turn = true, selected = false, moved = false;
 let availablePlaces = [], cellsForHTML = [];
 let cellsOnWork = [];
 let clicked = '';
+let deadBlack = [], deadWhite = [];
 
 window.onload = function() {
     for(let i = 1; i <= 8; i++) {
@@ -174,23 +175,35 @@ function boardViewer(cord) {
 
 function GenerateForPawn(coord) {
     if(white_turn) {
-        if(coord[0] > 0 && legalForWhite(up(coord, 1))) {
+        if(coord[0] > 0 && legalForWhite(up(coord, 1)) && !containsBlack(up(coord, 1))) {
             availablePlaces.push(up(coord, 1));
         }
         if(coord[0] == 6) {
-            if(legalForWhite(up(coord, 2))) {
+            if(legalForWhite(up(coord, 2)) && !containsBlack(up(coord, 2))) {
                 availablePlaces.push(up(coord, 2));
             }
         }
+        if(containsBlack(upRight(coord, 1))) {
+            availablePlaces.push(upRight(coord, 1));
+        }
+        if(containsBlack(upLeft(coord, 1))) {
+            availablePlaces.push(upLeft(coord, 1));
+        }
     }
     else {
-        if(coord[0] < 7 && legalForBlack(down(coord, 1))) {
+        if(coord[0] < 7 && legalForBlack(down(coord, 1)) && !containsWhite(down(coord, 1))) {
             availablePlaces.push(down(coord, 1));
         }
         if(coord[0] == 1) {
-            if(legalForWhite(down(coord, 2))) {
+            if(legalForWhite(down(coord, 2)) && !containsWhite(down(coord, 2))) {
                 availablePlaces.push(down(coord, 2));
             }
+        }
+        if(containsWhite(downRight(coord, 1))) {
+            availablePlaces.push(downRight(coord, 1));
+        }
+        if(containsWhite(downLeft(coord, 1))) {
+            availablePlaces.push(downLeft(coord, 1));
         }
     }
 }
@@ -259,6 +272,136 @@ function GenerateForRook(position) {
     }
 }
 
+function GenerateForKnight(position) {
+    if(white_turn) {
+        if(legalForWhite(up(left(position, 1), 2))) {
+            availablePlaces.push(up(left(position, 1), 2));
+        }
+        if(legalForWhite(up(right(position, 1), 2))) {
+            availablePlaces.push(up(right(position, 1), 2));
+        }
+        if(legalForWhite(up(left(position, 2), 1))) {
+            availablePlaces.push(up(left(position, 2), 1));
+        }
+        if(legalForWhite(up(right(position, 2), 1))) {
+            availablePlaces.push(up(right(position, 2), 1));
+        }
+        if(legalForWhite(down(left(position, 1), 2))) {
+            availablePlaces.push(down(left(position, 1), 2));
+        }
+        if(legalForWhite(down(right(position, 1), 2))) {
+            availablePlaces.push(down(right(position, 1), 2));
+        }
+        if(legalForWhite(down(left(position, 2), 1))) {
+            availablePlaces.push(down(left(position, 2), 1));
+        }
+        if(legalForWhite(down(right(position, 2), 1))) {
+            availablePlaces.push(down(right(position, 2), 1));
+        }
+    }
+    else {
+        if(legalForBlack(up(left(position, 1), 2))) {
+            availablePlaces.push(up(left(position, 1), 2));
+        }
+        if(legalForBlack(up(right(position, 1), 2))) {
+            availablePlaces.push(up(right(position, 1), 2));
+        }
+        if(legalForBlack(up(left(position, 2), 1))) {
+            availablePlaces.push(up(left(position, 2), 1));
+        }
+        if(legalForBlack(up(right(position, 2), 1))) {
+            availablePlaces.push(up(right(position, 2), 1));
+        }
+        if(legalForBlack(down(left(position, 1), 2))) {
+            availablePlaces.push(down(left(position, 1), 2));
+        }
+        if(legalForBlack(down(right(position, 1), 2))) {
+            availablePlaces.push(down(right(position, 1), 2));
+        }
+        if(legalForBlack(down(left(position, 2), 1))) {
+            availablePlaces.push(down(left(position, 2), 1));
+        }
+        if(legalForBlack(down(right(position, 2), 1))) {
+            availablePlaces.push(down(right(position, 2), 1));
+        }
+    }
+}
+
+function GenerateForBishop(position) {
+    let enemyEncountered = false, i = 1;
+    if(white_turn) {
+        while(legalForWhite(upRight(position, i)) && !enemyEncountered) {
+            availablePlaces.push(upRight(position, i));
+            if(containsBlack(upRight(position, i))) {
+                enemyEncountered = true;
+            }
+            i += 1;
+        }
+        i = 1;
+        enemyEncountered = false;
+        while(legalForWhite(downRight(position, i)) && !enemyEncountered) {
+            availablePlaces.push(downRight(position, i));
+            if(containsBlack(downRight(position, i))) {
+                enemyEncountered = true;
+            }
+            i += 1;
+        }
+        i = 1;
+        enemyEncountered = false;
+        while(legalForWhite(upLeft(position, i)) && !enemyEncountered) {
+            availablePlaces.push(upLeft(position, i));
+            if(containsBlack(upLeft(position, i))) {
+                enemyEncountered = true;
+            }
+            i += 1;
+        }
+        i = 1;
+        enemyEncountered = false;
+        while(legalForWhite(downLeft(position, i)) && !enemyEncountered) {
+            availablePlaces.push(downLeft(position, i));
+            if(containsBlack(downLeft(position, i))) {
+                enemyEncountered = true;
+            }
+            i += 1;
+        }
+    }
+    else {
+        while(legalForBlack(upRight(position, i)) && !enemyEncountered) {
+            availablePlaces.push(upRight(position, i));
+            if(containsWhite(upRight(position, i))) {
+                enemyEncountered = true;
+            }
+            i += 1;
+        }
+        i = 1;
+        enemyEncountered = false;
+        while(legalForBlack(downRight(position, i)) && !enemyEncountered) {
+            availablePlaces.push(downRight(position, i));
+            if(containsWhite(downRight(position, i))) {
+                enemyEncountered = true;
+            }
+            i += 1;
+        }
+        i = 1;
+        enemyEncountered = false;
+        while(legalForBlack(upLeft(position, i)) && !enemyEncountered) {
+            availablePlaces.push(upLeft(position, i));
+            if(containsWhite(upLeft(position, i))) {
+                enemyEncountered = true;
+            }
+            i += 1;
+        }
+        i = 1;
+        enemyEncountered = false;
+        while(legalForBlack(downLeft(position, i)) && !enemyEncountered) {
+            availablePlaces.push(downLeft(position, i));
+            if(containsWhite(downLeft(position, i))) {
+                enemyEncountered = true;
+            }
+            i += 1;
+        }
+    }
+}
 function copyForHTML() {
     for(let elements of availablePlaces) {
         cellsForHTML.push(IndexToSt(elements));
@@ -273,6 +416,12 @@ function choicesGenerator(piece, position) {
     else if(piece == 'h' || piece == 'H') {
         GenerateForRook(position);
     }
+    else if(piece == 'g' || piece == 'G') {
+        GenerateForKnight(position);
+    }
+    else if(piece == 'o' || piece == 'O') {
+        GenerateForBishop(position);
+    }
     copyForHTML();
 }
 
@@ -281,7 +430,12 @@ function updateStyle(st) {
     cellsOnWork.push(st);
 
     for(let cell of cellsForHTML) {
-        document.getElementById(cell).style.border = 'yellow 4px solid';
+        if(boardCellContent(stToIndex(cell)) != ' ') {
+            document.getElementById(cell).style.border = 'red 4px solid';
+        }
+        else {
+            document.getElementById(cell).style.border = 'yellow 4px solid';
+        }
         cellsOnWork.push(cell);
     }
 }
@@ -311,6 +465,32 @@ function resetChanges() {
         }
     }
     cellsOnWork = [];
+    cellsForHTML = [];
+    availablePlaces = [];
+}
+
+function makeMove(initial, final) {
+    white_turn = !white_turn;
+    let pos1 = stToIndex(initial);
+    let pos2 = stToIndex(final);
+    let pieceInInitial = document.getElementById(initial).innerHTML;
+    document.getElementById(initial).innerHTML = '';
+    document.getElementById(final).innerHTML = '';
+    document.getElementById(final).innerHTML = pieceInInitial;
+
+    if(boardCellContent(pos2) != ' ') {
+        if(!white_turn) {
+            deadBlack.push(boardCellContent(pos2));
+        }
+        else {
+            deadWhite.push(boardCellContent(pos2));
+        }
+    }
+
+    pieceInInitial = boardCellContent(pos1);
+    board[pos1[0]][pos1[1]] = ' ';
+    board[pos2[0]][pos2[1]] = pieceInInitial;
+    resetChanges();
 }
 
 function updateBoard(st) {
@@ -320,10 +500,14 @@ function updateBoard(st) {
         return;
     }
     let cell = stToIndex(st);
+    if(cellsForHTML.includes(st)) {
+        makeMove(clicked, st);
+    }
     if((boardCellContent(cell) == ' ') || ((white_turn && containsBlack(cell)) || (!white_turn && containsWhite(cell)))) {
         return;
     }
     let pc = boardCellContent(cell);
+    resetChanges();
     choicesGenerator(pc, cell);
     resetChanges();
     updateStyle(st);
