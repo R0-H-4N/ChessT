@@ -4,9 +4,10 @@ let availablePlaces = [], cellsForHTML = [];
 let cellsOnWork = [];
 let clicked = '';
 let deadBlack = [], deadWhite = [];
+let wKingPos = ' ', bKingPos = ' ';
 
 window.onload = function() {
-    for(let i = 1; i <= 8; i++) {
+    for(let i = 1; i <= 8; i += 1) {
         let s = 'b' + i;
         let p = document.getElementById(s);
         p.innerHTML = '<img src="Pieces/SenaW.png">';
@@ -40,6 +41,9 @@ window.onload = function() {
              [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
              ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
              ['h', 'g', 'o', 'q', 'k', 'o', 'g', 'h']];
+    
+    wKingPos = 'a5';
+    bKingPos = 'h5';
 }
 
 function stToIndex(st) {
@@ -147,9 +151,233 @@ function legalForBlack(coord) {
     return (containsWhite(coord) || (boardCellContent(coord) == ' '));
 }
 
+function withInBoard(coord) {
+    return ((coord[0] < 8) && (coord[0] >= 0) && (coord[1] < 8) && (coord[1] >= 0));
+}
+
+function underCheck(coord) {
+    let i = 1;
+    if(white_turn) {
+        while(withInBoard(upLeft(coord, i))) {
+            if(boardCellContent(upLeft(coord, i)) == 'Q' || boardCellContent(upLeft(coord, i)) == 'O') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(upRight(coord, i))) {
+            if(boardCellContent(upRight(coord, i)) == 'Q' || boardCellContent(upRight(coord, i)) == 'O') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(downLeft(coord, i))) {
+            if(boardCellContent(downLeft(coord, i)) == 'Q' || boardCellContent(downLeft(coord, i)) == 'O') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(downRight(coord, i))) {
+            if(boardCellContent(downRight(coord, i)) == 'Q' || boardCellContent(downRight(coord, i)) == 'O') {
+                return true;
+            }
+            i += 1;
+        }
+
+        i = 1;
+        while(withInBoard(up(coord, i))) {
+            if(boardCellContent(up(coord, i)) == 'H' || boardCellContent(up(coord, i)) == 'Q') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(down(coord, i))) {
+            if(boardCellContent(down(coord, i)) == 'H' || boardCellContent(down(coord, i)) == 'Q') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(left(coord, i))) {
+            if(boardCellContent(left(coord, i)) == 'H' || boardCellContent(left(coord, i)) == 'Q') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(right(coord, i))) {
+            if(boardCellContent(right(coord, i)) == 'H' || boardCellContent(right(coord, i)) == 'Q') {
+                return true;
+            }
+            i += 1;
+        }
+
+        let m = up(right(coord, 1), 2);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'G') {
+                return true;
+            }
+        }
+        m = up(right(coord, 2), 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'G') {
+                return true;
+            }
+        }
+        m = up(left(coord, 1), 2);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'G') {
+                return true;
+            }
+        }
+        m = up(left(coord, 2), 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'G') {
+                return true;
+            }
+        }
+        m = down(right(coord, 2), 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'G') {
+                return true;
+            }
+        }
+        m = down(right(coord, 1), 2);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'G') {
+                return true;
+            }
+        }
+        m = down(left(coord, 2), 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'G') {
+                return true;
+            }
+        }
+        m = down(left(coord, 1), 2);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'G') {
+                return true;
+            }
+        }
+
+    }
+    else {
+        while(withInBoard(upLeft(coord, i))) {
+            if(boardCellContent(upLeft(coord, i)) == 'q' || boardCellContent(upLeft(coord, i)) == 'o') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(upRight(coord, i))) {
+            if(boardCellContent(upRight(coord, i)) == 'q' || boardCellContent(upRight(coord, i)) == 'o') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(downLeft(coord, i))) {
+            if(boardCellContent(downLeft(coord, i)) == 'q' || boardCellContent(downLeft(coord, i)) == 'o') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(downRight(coord, i))) {
+            if(boardCellContent(downRight(coord, i)) == 'q' || boardCellContent(downRight(coord, i)) == 'o') {
+                return true;
+            }
+            i += 1;
+        }
+
+        i = 1;
+        while(withInBoard(up(coord, i))) {
+            if(boardCellContent(up(coord, i)) == 'h' || boardCellContent(up(coord, i)) == 'q') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(down(coord, i))) {
+            if(boardCellContent(down(coord, i)) == 'h' || boardCellContent(down(coord, i)) == 'q') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(left(coord, i))) {
+            if(boardCellContent(left(coord, i)) == 'h' || boardCellContent(left(coord, i)) == 'q') {
+                return true;
+            }
+            i += 1;
+        }
+        i = 1;
+        while(withInBoard(right(coord, i))) {
+            if(boardCellContent(right(coord, i)) == 'h' || boardCellContent(right(coord, i)) == 'q') {
+                return true;
+            }
+        }
+        i += 1;
+
+        let m = up(right(coord, 1), 2);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'g') {
+                return true;
+            }
+        }
+        m = up(right(coord, 2), 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'g') {
+                return true;
+            }
+        }
+        m = up(left(coord, 1), 2);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'g') {
+                return true;
+            }
+        }
+        m = up(left(coord, 2), 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'g') {
+                return true;
+            }
+        }
+        m = down(right(coord, 2), 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'g') {
+                return true;
+            }
+        }
+        m = down(right(coord, 1), 2);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'g') {
+                return true;
+            }
+        }
+        m = down(left(coord, 2), 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'g') {
+                return true;
+            }
+        }
+        m = down(left(coord, 1), 2);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'g') {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 function boardViewer(cord) {
     let b = [];
-    for(let i = 0; i < 8; i++) {
+    for(let i = 0; i < 8; i += 1) {
         let c = [];
         for(let j = 0; j < 8; j++) {
             c.push('_');
@@ -164,7 +392,7 @@ function boardViewer(cord) {
             b[element[0]][element[1]] = '.';
         }
     }
-    for(let i = 0; i < 8; i++) {
+    for(let i = 0; i < 8; i += 1) {
         let rw = '';
         for(let j = 0; j < 8; j++) {
             rw += ' ' + b[i][j];
@@ -402,6 +630,98 @@ function GenerateForBishop(position) {
         }
     }
 }
+
+function GenerateForQueen(position) {
+    GenerateForBishop(position);
+    GenerateForRook(position);
+}
+
+function GenerateForKing(position) {
+    if(white_turn) {
+        if(legalForWhite(upRight(position, 1))) {
+            if(!underCheck(upRight(position, 1))) {
+                availablePlaces.push(upRight(position, 1));
+            }
+        }
+        if(legalForWhite(upLeft(position, 1))) {
+            if(!underCheck(upLeft(position, 1))) {
+                availablePlaces.push(upLeft(position, 1));
+            }
+        }
+        if(legalForWhite(downLeft(position, 1))) {
+            if(!underCheck(downRight(position, 1))) {
+                availablePlaces.push(downRight(position, 1));
+            }
+        }
+        if(legalForWhite(downRight(position, 1))) {
+            if(!underCheck(downRight(position, 1))) {
+                availablePlaces.push(downRight(position, 1));
+            }
+        }
+        if(legalForWhite(up(position, 1))) {
+            if(!underCheck(up(position, 1))) {
+                availablePlaces.push(up(position, 1));
+            }
+        }
+        if(legalForWhite(down(position, 1))) {
+            if(!underCheck(down(position, 1))) {
+                availablePlaces.push(down(position, 1));
+            }
+        }
+        if(legalForWhite(left(position, 1))) {
+            if(!underCheck(left(position, 1))) {
+                availablePlaces.push(left(position, 1));
+            }
+        }
+        if(legalForWhite(right(position, 1))) {
+            if(!underCheck(right(position, 1))) {
+                availablePlaces.push(right(position, 1));
+            }
+        }
+    }
+    else {
+        if(legalForBlack(upRight(position, 1))) {
+            if(!underCheck(upRight(position, 1))) {
+                availablePlaces.push(upRight(position, 1));
+            }
+        }
+        if(legalForBlack(upLeft(position, 1))) {
+            if(!underCheck(upLeft(position, 1))) {
+                availablePlaces.push(upLeft(position, 1));
+            }
+        }
+        if(legalForBlack(downLeft(position, 1))) {
+            if(!underCheck(downRight(position, 1))) {
+                availablePlaces.push(downRight(position, 1));
+            }
+        }
+        if(legalForBlack(downRight(position, 1))) {
+            if(!underCheck(upRight(position, 1))) {
+                availablePlaces.push(downRight(position, 1));
+            }
+        }
+        if(legalForBlack(up(position, 1))) {
+            if(!underCheck(up(position, 1))) {
+                availablePlaces.push(up(position, 1));
+            }
+        }
+        if(legalForBlack(down(position, 1))) {
+            if(!underCheck(down(position, 1))) {
+                availablePlaces.push(down(position, 1));
+            }
+        }
+        if(legalForBlack(left(position, 1))) {
+            if(!underCheck(left(position, 1))) {
+                availablePlaces.push(left(position, 1));
+            }
+        }
+        if(legalForBlack(right(position, 1))) {
+            if(!underCheck(right(position, 1))) {
+                availablePlaces.push(right(position, 1));
+            }
+        }
+    }
+}
 function copyForHTML() {
     for(let elements of availablePlaces) {
         cellsForHTML.push(IndexToSt(elements));
@@ -421,6 +741,12 @@ function choicesGenerator(piece, position) {
     }
     else if(piece == 'o' || piece == 'O') {
         GenerateForBishop(position);
+    }
+    else if(piece == 'q' || piece == 'Q') {
+        GenerateForQueen(position);
+    }
+    else if(piece == 'k' || piece == 'K') {
+        GenerateForKing(position);
     }
     copyForHTML();
 }
@@ -470,9 +796,14 @@ function resetChanges() {
 }
 
 function makeMove(initial, final) {
-    white_turn = !white_turn;
     let pos1 = stToIndex(initial);
     let pos2 = stToIndex(final);
+    if(boardCellContent(pos1) == 'k') {
+        wKingPos = final;
+    }
+    if(boardCellContent(pos2) == 'K') {
+        bKingPos = final;
+    }
     let pieceInInitial = document.getElementById(initial).innerHTML;
     document.getElementById(initial).innerHTML = '';
     document.getElementById(final).innerHTML = '';
@@ -490,6 +821,7 @@ function makeMove(initial, final) {
     pieceInInitial = boardCellContent(pos1);
     board[pos1[0]][pos1[1]] = ' ';
     board[pos2[0]][pos2[1]] = pieceInInitial;
+    white_turn = !white_turn;
     resetChanges();
 }
 
@@ -513,6 +845,17 @@ function updateBoard(st) {
     updateStyle(st);
     clicked = st;
 }
+
+/*board = [['H', 'G', 'O', 'Q', 'K', 'O', 'G', 'H'],
+             ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+             [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+             ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+             ['h', 'g', 'o', 'q', 'k', 'o', 'g', 'h']];
+
+console.log(underCheck([2, 6]));*/
 
 
 
