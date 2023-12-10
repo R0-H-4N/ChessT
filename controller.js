@@ -4,7 +4,7 @@ let availablePlaces = [], cellsForHTML = [];
 let cellsOnWork = [];
 let clicked = '';
 let deadBlack = [], deadWhite = [];
-let wKingPos = ' ', bKingPos = ' ';
+let wKingPos = [-1, -1], bKingPos = [-1, -1];
 
 window.onload = function() {
     for(let i = 1; i <= 8; i += 1) {
@@ -42,8 +42,8 @@ window.onload = function() {
              ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
              ['h', 'g', 'o', 'q', 'k', 'o', 'g', 'h']];
     
-    wKingPos = 'a5';
-    bKingPos = 'h5';
+    wKingPos = [7, 4];
+    bKingPos = [0, 4];
 }
 
 function stToIndex(st) {
@@ -162,12 +162,18 @@ function underCheck(coord) {
             if(boardCellContent(upLeft(coord, i)) == 'Q' || boardCellContent(upLeft(coord, i)) == 'O') {
                 return true;
             }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
+            }
             i += 1;
         }
         i = 1;
         while(withInBoard(upRight(coord, i))) {
             if(boardCellContent(upRight(coord, i)) == 'Q' || boardCellContent(upRight(coord, i)) == 'O') {
                 return true;
+            }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
             }
             i += 1;
         }
@@ -176,12 +182,18 @@ function underCheck(coord) {
             if(boardCellContent(downLeft(coord, i)) == 'Q' || boardCellContent(downLeft(coord, i)) == 'O') {
                 return true;
             }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
+            }
             i += 1;
         }
         i = 1;
         while(withInBoard(downRight(coord, i))) {
             if(boardCellContent(downRight(coord, i)) == 'Q' || boardCellContent(downRight(coord, i)) == 'O') {
                 return true;
+            }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
             }
             i += 1;
         }
@@ -191,12 +203,18 @@ function underCheck(coord) {
             if(boardCellContent(up(coord, i)) == 'H' || boardCellContent(up(coord, i)) == 'Q') {
                 return true;
             }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
+            }
             i += 1;
         }
         i = 1;
         while(withInBoard(down(coord, i))) {
             if(boardCellContent(down(coord, i)) == 'H' || boardCellContent(down(coord, i)) == 'Q') {
                 return true;
+            }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
             }
             i += 1;
         }
@@ -205,12 +223,18 @@ function underCheck(coord) {
             if(boardCellContent(left(coord, i)) == 'H' || boardCellContent(left(coord, i)) == 'Q') {
                 return true;
             }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
+            }
             i += 1;
         }
         i = 1;
         while(withInBoard(right(coord, i))) {
             if(boardCellContent(right(coord, i)) == 'H' || boardCellContent(right(coord, i)) == 'Q') {
                 return true;
+            }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
             }
             i += 1;
         }
@@ -264,11 +288,69 @@ function underCheck(coord) {
             }
         }
 
+        m = upLeft(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'P' || boardCellContent(m) == 'K') {
+                return true;
+            }
+        }
+        
+        m = upRight(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'P' || boardCellContent(m) == 'K') {
+                return true;
+            }
+        }
+
+        m = downLeft(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'K') {
+                return true;
+            }
+        }
+
+        m = downRight(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'K') {
+                return true;
+            }
+        }
+
+        m = up(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'K') {
+                return true;
+            }
+        }
+
+        m = down(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'K') {
+                return true;
+            }
+        }
+
+        m = right(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'K') {
+                return true;
+            }
+        }
+
+        m = left(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'K') {
+                return true;
+            }
+        }
     }
     else {
         while(withInBoard(upLeft(coord, i))) {
             if(boardCellContent(upLeft(coord, i)) == 'q' || boardCellContent(upLeft(coord, i)) == 'o') {
                 return true;
+            }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
             }
             i += 1;
         }
@@ -277,6 +359,9 @@ function underCheck(coord) {
             if(boardCellContent(upRight(coord, i)) == 'q' || boardCellContent(upRight(coord, i)) == 'o') {
                 return true;
             }
+            if(boardCellContent(upLeft(coord, i)) != ' ') {
+                break;
+            }
             i += 1;
         }
         i = 1;
@@ -284,12 +369,18 @@ function underCheck(coord) {
             if(boardCellContent(downLeft(coord, i)) == 'q' || boardCellContent(downLeft(coord, i)) == 'o') {
                 return true;
             }
+            if(boardCellContent(downLeft(coord, i)) != ' ') {
+                break;
+            }
             i += 1;
         }
         i = 1;
         while(withInBoard(downRight(coord, i))) {
             if(boardCellContent(downRight(coord, i)) == 'q' || boardCellContent(downRight(coord, i)) == 'o') {
                 return true;
+            }
+            if(boardCellContent(downRight(coord, i)) != ' ') {
+                break;
             }
             i += 1;
         }
@@ -299,12 +390,18 @@ function underCheck(coord) {
             if(boardCellContent(up(coord, i)) == 'h' || boardCellContent(up(coord, i)) == 'q') {
                 return true;
             }
+            if(boardCellContent(up(coord, i)) != ' ') {
+                break;
+            }
             i += 1;
         }
         i = 1;
         while(withInBoard(down(coord, i))) {
             if(boardCellContent(down(coord, i)) == 'h' || boardCellContent(down(coord, i)) == 'q') {
                 return true;
+            }
+            if(boardCellContent(down(coord, i)) != ' ') {
+                break;
             }
             i += 1;
         }
@@ -313,6 +410,9 @@ function underCheck(coord) {
             if(boardCellContent(left(coord, i)) == 'h' || boardCellContent(left(coord, i)) == 'q') {
                 return true;
             }
+            if(boardCellContent(left(coord, i)) != ' ') {
+                break;
+            }
             i += 1;
         }
         i = 1;
@@ -320,8 +420,11 @@ function underCheck(coord) {
             if(boardCellContent(right(coord, i)) == 'h' || boardCellContent(right(coord, i)) == 'q') {
                 return true;
             }
+            if(boardCellContent(right(coord, i)) != ' ') {
+                break;
+            }
+            i += 1;
         }
-        i += 1;
 
         let m = up(right(coord, 1), 2);
         if(withInBoard(m)) {
@@ -368,6 +471,62 @@ function underCheck(coord) {
         m = down(left(coord, 1), 2);
         if(withInBoard(m)) {
             if(boardCellContent(m) == 'g') {
+                return true;
+            }
+        }
+
+        m = downLeft(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'p' || boardCellContent(m) == 'k') {
+                return true;
+            }
+        }
+        
+        m = downRight(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'p' || boardCellContent(m) == 'k') {
+                return true;
+            }
+        }
+
+        m = downLeft(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'k') {
+                return true;
+            }
+        }
+
+        m = downRight(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'k') {
+                return true;
+            }
+        }
+
+        m = up(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'k') {
+                return true;
+            }
+        }
+
+        m = down(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'k') {
+                return true;
+            }
+        }
+
+        m = right(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'k') {
+                return true;
+            }
+        }
+
+        m = left(coord, 1);
+        if(withInBoard(m)) {
+            if(boardCellContent(m) == 'k') {
                 return true;
             }
         }
@@ -649,8 +808,8 @@ function GenerateForKing(position) {
             }
         }
         if(legalForWhite(downLeft(position, 1))) {
-            if(!underCheck(downRight(position, 1))) {
-                availablePlaces.push(downRight(position, 1));
+            if(!underCheck(downLeft(position, 1))) {
+                availablePlaces.push(downLeft(position, 1));
             }
         }
         if(legalForWhite(downRight(position, 1))) {
@@ -691,12 +850,12 @@ function GenerateForKing(position) {
             }
         }
         if(legalForBlack(downLeft(position, 1))) {
-            if(!underCheck(downRight(position, 1))) {
-                availablePlaces.push(downRight(position, 1));
+            if(!underCheck(downLeft(position, 1))) {
+                availablePlaces.push(downLeft(position, 1));
             }
         }
         if(legalForBlack(downRight(position, 1))) {
-            if(!underCheck(upRight(position, 1))) {
+            if(!underCheck(downRight(position, 1))) {
                 availablePlaces.push(downRight(position, 1));
             }
         }
@@ -798,11 +957,84 @@ function resetChanges() {
 function makeMove(initial, final) {
     let pos1 = stToIndex(initial);
     let pos2 = stToIndex(final);
-    if(boardCellContent(pos1) == 'k') {
-        wKingPos = final;
+    let wasChecked = false;
+    if(white_turn) {
+        wasChecked = underCheck(wKingPos);
+        let pc = boardCellContent(pos1);
+        let pc2 = boardCellContent(pos2);
+        board[pos2[0]][pos2[1]] = pc;
+        board[pos1[0]][pos1[1]] = ' ';
+        if(wasChecked) {
+            if(pc != 'k') {
+                if(underCheck(wKingPos)) {
+                    board[pos1[0]][pos1[1]] = pc;
+                    board[pos2[0]][pos2[1]] = pc2;
+                    resetChanges();
+                    alert('King under check!');
+                    return;
+                }
+            }
+            if(wKingPos[0] % 2 == 0) {
+                if(wKingPos[1] % 2 == 1) {
+                    document.getElementById(IndexToSt(wKingPos)).style.backgroundColor = '#bbbbbb';
+                }
+                else {
+                    document.getElementById(IndexToSt(wKingPos)).style.backgroundColor = '#505050';
+                }
+            }
+            else {
+                if(wKingPos[1] % 2 == 1) {
+                    document.getElementById(IndexToSt(wKingPos)).style.backgroundColor = '#505050';
+                }
+                else {
+                    document.getElementById(IndexToSt(wKingPos)).style.backgroundColor = '#bbbbbb';
+                }
+            }
+        }
+        board[pos1[0]][pos1[1]] = pc;
+        board[pos2[0]][pos2[1]] = pc2;
     }
-    if(boardCellContent(pos2) == 'K') {
-        bKingPos = final;
+    else {
+        wasChecked = underCheck(bKingPos);
+        let pc = boardCellContent(pos1);
+        let pc2 = boardCellContent(pos2);
+        board[pos2[0]][pos2[1]] = pc;
+        board[pos1[0]][pos1[1]] = ' ';
+        if(wasChecked) {
+            if(pc != 'K') {
+                if(underCheck(bKingPos)) {
+                    board[pos1[0]][pos1[1]] = pc;
+                    board[pos2[0]][pos2[1]] = pc2;
+                    resetChanges();
+                    alert('King under check!');
+                    return;
+                }
+            }
+            if(bKingPos[0] % 2 == 0) {
+                if(bKingPos[1] % 2 == 1) {
+                    document.getElementById(IndexToSt(bKingPos)).style.backgroundColor = '#bbbbbb';
+                }
+                else {
+                    document.getElementById(IndexToSt(bKingPos)).style.backgroundColor = '#505050';
+                }
+            }
+            else {
+                if(bKingPos[1] % 2 == 1) {
+                    document.getElementById(IndexToSt(bKingPos)).style.backgroundColor = '#505050';
+                }
+                else {
+                    document.getElementById(IndexToSt(bKingPos)).style.backgroundColor = '#bbbbbb';
+                }
+            }
+        }
+        board[pos1[0]][pos1[1]] = pc;
+        board[pos2[0]][pos2[1]] = pc2;
+    }
+    if(boardCellContent(pos1) == 'k') {
+        wKingPos = pos2;
+    }
+    if(boardCellContent(pos1) == 'K') {
+        bKingPos = pos2;
     }
     let pieceInInitial = document.getElementById(initial).innerHTML;
     document.getElementById(initial).innerHTML = '';
@@ -823,6 +1055,16 @@ function makeMove(initial, final) {
     board[pos2[0]][pos2[1]] = pieceInInitial;
     white_turn = !white_turn;
     resetChanges();
+    if(!white_turn) {
+        if(underCheck(bKingPos)) {
+            document.getElementById(IndexToSt(bKingPos)).style.backgroundColor = '#ff5555';
+        }
+    }
+    else {
+        if(underCheck(wKingPos)) {
+            document.getElementById(IndexToSt(wKingPos)).style.backgroundColor = '#ff5555';
+        }
+    }
 }
 
 function updateBoard(st) {
@@ -834,6 +1076,7 @@ function updateBoard(st) {
     let cell = stToIndex(st);
     if(cellsForHTML.includes(st)) {
         makeMove(clicked, st);
+        return;
     }
     if((boardCellContent(cell) == ' ') || ((white_turn && containsBlack(cell)) || (!white_turn && containsWhite(cell)))) {
         return;
@@ -855,7 +1098,8 @@ function updateBoard(st) {
              ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
              ['h', 'g', 'o', 'q', 'k', 'o', 'g', 'h']];
 
-console.log(underCheck([2, 6]));*/
+
+console.log(underCheck([7, 4]));*/
 
 
 
